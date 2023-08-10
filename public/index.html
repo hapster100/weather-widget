@@ -2,16 +2,38 @@
 <html lang="">
   <head>
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <title>Test</title>
+    <style>
+      .container {
+        background-color: antiquewhite;
+        margin: 10px;
+        padding: 10px;
+        display: inline-block;
+      }
+      .container--small {
+        width: 200px;
+        height: 300px;
+      }
+      .container--medium {
+        width: 300px;
+        height: 500px;
+      }
+      .container--big {
+        width: 500px;
+        height: 900px;
+      }
+    </style>
   </head>
   <body>
-    <noscript>
-      <strong>We're sorry but <%= htmlWebpackPlugin.options.title %> doesn't work properly without JavaScript enabled. Please enable it to continue.</strong>
-    </noscript>
-    <div id="app"></div>
-    <!-- built files will be auto injected -->
+    <div class="container container--small">
+      <weather-widget></weather-widget>
+    </div>
+    <div class="container container--medium">
+      <weather-widget></weather-widget>
+    </div>
+    <div class="container container--big">
+      <weather-widget></weather-widget>
+    </div>
   </body>
 </html>

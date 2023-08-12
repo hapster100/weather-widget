@@ -19,3 +19,5 @@ export const apiUrl = (
 export const searchParamsFromObeject = (
   obj: {[key: string]: string},
 ) : URLSearchParams => new URLSearchParams(Object.entries(obj));
+
+export const weatherIconUrl = (code: string, q: '2'|'4' = '4') => `https://openweathermap.org/img/wn/${code}@${q}x.png`;

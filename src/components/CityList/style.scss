@@ -1,0 +1,30 @@
+.city-list__item {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    
+    padding: 8px;
+    margin: 8px 0;
+    border-radius: 8px;
+    
+    user-select: none;
+
+    background-color: rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+
+    .btn:hover {
+        background-color: rgba($color: #AA1215, $alpha: 0.1);
+    }
+}
+
+.city-list__item-name {
+    flex-grow: 1
+}
+
+.city-list {
+    margin-bottom: 20px;
+}
+
+.city-list-move {
+    transition: transform 0.5s;
+}

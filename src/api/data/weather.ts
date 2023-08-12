@@ -1,5 +1,5 @@
 import { DATA_API_VERSION } from '../constants';
-import { apiUrl, searchParamsFromObeject } from '../common/helpers';
+import { apiUrl, searchParamsFromObeject, weatherIconUrl } from '../common/helpers';
 import { Language, UnitsType } from '../common/types';
 
 /* eslint-disable camelcase */
@@ -13,6 +13,7 @@ interface CurrentWeatherResponse {
     main: string
     description: string
     icon: string
+    iconSrc: string
   }>
   base: string
   main: {
@@ -75,11 +76,20 @@ export const weather = async (
     }),
   );
 
-  const json = await fetch(url.toString()).then((res) => res.json());
+  const res = await fetch(url.toString());
 
-  if (json.cod !== 200) {
-    throw new Error(json.message);
+  if (res.status !== 200) {
+    throw new Error(res.status.toString());
   }
 
-  return json as CurrentWeatherResponse;
+  const json = await res.json();
+
+  const currentWeather = json as CurrentWeatherResponse;
+  currentWeather.weather = currentWeather.weather.map(({ icon, ...other }) => ({
+    ...other,
+    icon,
+    iconSrc: weatherIconUrl(icon),
+  }));
+
+  return currentWeather;
 };

@@ -5,7 +5,8 @@
         <div class="city-list__header">
             <h4>Your Cities</h4>
         </div>
-        <TransitionGroup class="city-list" name="city-list" tag="div">
+        <CircleLoader v-if="loading"/>
+        <TransitionGroup v-else class="city-list" name="city-list" tag="div">
             <div
                 class="city-list__item"
                 v-for="city, i in list"
@@ -37,23 +38,25 @@ import {
 import { citiesStorage, City } from '@/storages/cities';
 import SearchCity from '@/components/SearchCity/SearchCity.ce.vue';
 import DeleteIcon from '../DeleteIcon.vue';
-import CrossIcon from '../CrossIcon.vue';
+import CircleLoader from '../CircleLoader/CircleLoader.vue';
 
 const list = ref([] as Array<City>);
 const isSearch = ref(false);
-const currentDragOver = ref<number|null>(null);
-const currentDrag = ref<number|null>(null);
+const loading = ref(true);
 
 let storageUnsub: (() => void)|null = null;
 
 const handleRemove = async (i: number) => {
-  await citiesStorage.remove(list.value[i].id || '');
+  const { id } = list.value[i];
+  list.value = list.value.filter((citi) => citi.id !== id);
+  await citiesStorage.remove(id || '');
 };
 
+const currentDragOver = ref<number|null>(null);
+const currentDrag = ref<number|null>(null);
 const handleDragEnd = () => {
   const from = currentDrag.value;
   const to = currentDragOver.value;
-  console.log(from, to);
   if (from !== null && to !== null && from !== to) {
     const newList = list.value.map((x, i, arr) => {
       if (i === from) return arr[to];
@@ -61,6 +64,7 @@ const handleDragEnd = () => {
       return x;
     });
     citiesStorage.putAll(newList);
+    list.value = newList;
   }
 };
 
@@ -70,6 +74,7 @@ defineProps<{
 
 onMounted(async () => {
   list.value = await citiesStorage.getAll();
+  loading.value = false;
   storageUnsub = citiesStorage.subscribe((cities) => {
     list.value = cities;
   });

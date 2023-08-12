@@ -1,9 +1,11 @@
 <template>
-  <WeatherIconsPrefetch />
-  <div class="weather-widget">
-    <FirstVisit v-if="isFirstVisit" :select="selectCityId"/>
-    <Weather v-else-if="cityId" :cityId="cityId" :unselect="unselectCityId"/>
-    <CityList v-else :select="selectCityId"/>
+  <div class="weather-widget__container">
+    <WeatherIconsPrefetch />
+    <div class="weather-widget">
+      <FirstVisit v-if="isFirstVisit" :select="selectCityId"/>
+      <Weather v-else-if="cityId" :cityId="cityId" :unselect="unselectCityId"/>
+      <CityList v-else :select="selectCityId"/>
+    </div>
   </div>
 </template>
 
@@ -53,6 +55,7 @@ export default defineComponent({
   @import './components/FirstVisit/style.scss';
   @import './components/CityList/style.scss';
   @import './components/SearchCity/style.scss';
+  @import './components/CircleLoader/style.scss';
 
   * {
     box-sizing: border-box;
@@ -64,10 +67,14 @@ export default defineComponent({
 
     overflow-y: scroll;
     width: 100%;
-    height: 400px;
+    height: 300px;
 
     font-family: monospace;
     font-size: 16px;
+
+    &__container {
+      min-width: 300px;
+    }
 
     &__top {
       display: flex;

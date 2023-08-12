@@ -11,7 +11,9 @@
 
     background-color: rgba(0, 0, 0, 0.1);
     cursor: pointer;
-
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.2);
+    }
     .btn:hover {
         background-color: rgba($color: #AA1215, $alpha: 0.1);
     }

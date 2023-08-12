@@ -21,6 +21,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    max-height: 180px;
   }
 
   &__value {
@@ -31,7 +32,15 @@
   }
 
   &__feels-like {
-    margin: 12px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    span {
+      white-space: nowrap;
+    }
   }
 
   @container (min-width: 200px) {

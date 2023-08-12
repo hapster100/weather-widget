@@ -17,7 +17,9 @@
         :feels-like="state.temperatureInfo.feelsLike"
         :temperature="state.temperatureInfo.temperature"
       />
-    <div v-else>Loading...</div>
+    <div v-else>
+      <CircleLoader />
+    </div>
   </div>
 </template>
 
@@ -27,10 +29,11 @@ import GearIcon from '@/components/Gear.ce.vue';
 import TemperatureInfo from '@/components/TemperatureInfo/TemperatureInfo.ce.vue';
 import { citiesStorage, City } from '@/storages/cities';
 import * as api from '@/api';
+import CircleLoader from '../CircleLoader/CircleLoader.vue';
 
 export default defineComponent({
   name: 'weather-view',
-  components: { GearIcon, TemperatureInfo },
+  components: { GearIcon, TemperatureInfo, CircleLoader },
   props: {
     cityId: {
       type: String,

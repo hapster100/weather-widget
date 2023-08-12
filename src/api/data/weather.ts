@@ -1,3 +1,4 @@
+import { slowFetch } from '@/delay';
 import { DATA_API_VERSION } from '../constants';
 import { apiUrl, searchParamsFromObeject, weatherIconUrl } from '../common/helpers';
 import { Language, UnitsType } from '../common/types';
@@ -76,7 +77,7 @@ export const weather = async (
     }),
   );
 
-  const res = await fetch(url.toString());
+  const res = await slowFetch(url.toString());
 
   if (res.status !== 200) {
     throw new Error(res.status.toString());

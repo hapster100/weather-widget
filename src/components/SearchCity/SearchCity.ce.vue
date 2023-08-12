@@ -14,12 +14,12 @@
         </div>
       </template>
     </template>
-    <p v-else>
+    <p v-else-if="search">
       Нечего не найденно :(
     </p>
   </template>
   <div v-else>
-    Loading...
+    <CircleLoader />
   </div>
 </template>
 
@@ -29,10 +29,11 @@ import * as api from '@/api';
 import { Geo } from '@/api/common/types';
 import { citiesStorage, City } from '@/storages/cities';
 import CrossIcon from '@/components/CrossIcon.vue';
+import CircleLoader from '@/components/CircleLoader/CircleLoader.vue';
 
 export default defineComponent({
   name: 'search-city',
-  components: { CrossIcon },
+  components: { CrossIcon, CircleLoader },
   props: {
     select: {
       type: Function,
@@ -44,7 +45,7 @@ export default defineComponent({
     },
   },
   data() {
-    const search = ref('London');
+    const search = ref('');
     const loading = ref(false);
     const list = ref([] as Geo[]);
 
@@ -56,28 +57,33 @@ export default defineComponent({
     };
 
     const fetchAndUpdateList = async (value: string) => {
-      const res = await api.geo.direct(value, undefined, undefined, 10);
-      updateList(value, res);
+      try {
+        const res = await api.geo.direct(value, undefined, undefined, 10);
+        updateList(value, res);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     const handleSearch = (e: Event) => {
       if (e.target instanceof HTMLInputElement) {
         const { value } = e.target;
+        search.value = value;
+        list.value = [];
         if (value) {
-          search.value = value;
           loading.value = true;
-          list.value = [];
           fetchAndUpdateList(value);
+        } else {
+          loading.value = false;
         }
       }
     };
 
     const handleAddCity = async (city: City) => {
+      loading.value = true;
       const id = await citiesStorage.add(city);
       this.select(id);
     };
-
-    fetchAndUpdateList(search.value);
 
     return {
       handleAddCity,
